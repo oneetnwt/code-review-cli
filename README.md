@@ -16,7 +16,7 @@ You can install `code-review-cli` directly from GitHub into your global environm
 
 ```bash
 # Install the latest version directly from GitHub
-pip install git+https://github.com/yourusername/code-review-cli.git
+pip install git+https://github.com/oneetnwt/code-review-cli.git
 ```
 
 _(Note: Replace `yourusername` with your actual GitHub username!)_
@@ -27,7 +27,7 @@ If you want to clone the repository to contribute or modify the rules:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/code-review-cli.git
+git clone https://github.com/oneetnwt/code-review-cli.git
 cd code-review-cli
 
 # Create a virtual environment
