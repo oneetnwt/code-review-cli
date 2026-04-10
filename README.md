@@ -12,35 +12,48 @@ A CLI tool to review your code before pushing. It analyzes your codebase for com
 
 ## Installation
 
-This project uses modern Python packaging via `hatchling`.
+You can install `code-review-cli` directly from GitHub into your global environment or project virtual environment using `pip`:
 
-Ensure you have Python 3.11+ installed.
+```bash
+# Install the latest version directly from GitHub
+pip install git+https://github.com/yourusername/code-review-cli.git
+```
+
+_(Note: Replace `yourusername` with your actual GitHub username!)_
+
+### Local Development Installation
+
+If you want to clone the repository to contribute or modify the rules:
 
 ```bash
 # Clone the repository
 git clone https://github.com/yourusername/code-review-cli.git
 cd code-review-cli
 
-# Create a virtual environment and structure
+# Create a virtual environment
 python -m venv .venv
 source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
 
-# Install the project locally
+# Install the project and its dependencies in editable mode
 pip install -e .
 ```
 
 ## Usage
 
-Once installed, the CLI tool registers the `review` command.
+Once installed, the CLI tool registers the `review` command globally.
 
 ```bash
-# Run a basic code review on the current directory
-review
+# First, generate a default .reviewrc config file in your project
+review init
 
-# Get help
-review --help
-```
+# Run a full code review on the current directory
+review review .
 
+# Run a review on only git-staged files (Perfect for pre-commit hooks!)
+review review . --staged
+
+# Generate a beautiful HTML report
+review review . --format html
 ## Development
 
 The architecture is divided into clear and extensible modules:
@@ -59,3 +72,4 @@ Tests are managed in the `tests/` directory. (Note: Currently undergoing scaffol
 ## License
 
 MIT License
+```

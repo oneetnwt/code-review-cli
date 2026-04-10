@@ -1,36 +1,39 @@
 # .reviewrc — Code Review Assistant config
 
-severity_threshold: low   # low | medium | high
+severity_threshold: low # low | medium | high
 
 ignore:
-  - venv
-  - node_modules
-  - dist
-  - build
-  - migrations
-  - "*.min.js"
+
+- venv
+- node_modules
+- dist
+- build
+- migrations
+- "\*.min.js"
 
 enabled_modules:
-  - style
-  - complexity
-  - security
-  - bug
-  - dead_code
+
+- style
+- complexity
+- security
+- bug
+- dead_code
+- bigo
 
 rules:
-  style:
-    max_line_length: 120
-    max_function_length: 50
-    naming_convention: snake_case
+style:
+max_line_length: 120
+max_function_length: 50
+naming_convention: snake_case
 
-  complexity:
-    max_cyclomatic_complexity: 10
-    max_nesting_depth: 4
+complexity:
+max_cyclomatic_complexity: 10
+max_nesting_depth: 4
 
-  security:
-    scan_secrets: true
-    scan_sql_injection: true
-    scan_xss: true
+security:
+scan_secrets: true
+scan_sql_injection: true
+scan_xss: true
 
 output:
-  format: console
+format: console

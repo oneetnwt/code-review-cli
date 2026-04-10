@@ -7,13 +7,26 @@ from enum import Enum
 from pathlib import Path
 from rich.table import Table
 
-from src.utils.file_walker import walk_files
+from src.utils.file_walker import (
+    walk_files,
+    should_ignore,
+    detect_language,
+    DEFAULT_IGNORE,
+    SourceFile,
+)
 from src.utils.config import load_config
+from src.utils.git import get_staged_files
 from src.analyzer.engine import AnalysisEngine
 from src.analyzer.issue import Severity as IssueSeverity
 from src.analyzer.style import StyleAnalyzer
 from src.analyzer.complexity import ComplexityAnalyzer
 from src.analyzer.dead_code import DeadCodeAnalyzer
+from src.analyzer.big_o import BigOAnalyzer
+from src.analyzer.bug import BugAnalyzer
+from src.analyzer.security import SecurityAnalyzer
+from src.reporters.console import ConsoleReporter
+from src.reporters.json_reporter import JsonReporter
+from src.reporters.html_reporter import HtmlReporter
 
 app = typer.Typer(
     name="review",
@@ -50,6 +63,62 @@ def main(
     )
 ):
     pass
+
+
+@app.command()
+def init():
+    """
+    Initialize a new .reviewrc configuration file in the current directory.
+    """
+    config_path = Path(".reviewrc")
+    if config_path.exists():
+        console.print(
+            "[yellow]A .reviewrc file already exists in this directory.[/yellow]"
+        )
+        raise typer.Exit(1)
+
+    default_config = """# .reviewrc — Code Review Assistant config
+
+severity_threshold: low   # low | medium | high
+
+ignore:
+  - venv
+  - node_modules
+  - dist
+  - build
+  - migrations
+  - "*.min.js"
+
+enabled_modules:
+  - style
+  - complexity
+  - security
+  - bug
+  - dead_code
+  - bigo
+
+rules:
+  style:
+    max_line_length: 120
+    max_function_length: 50
+    naming_convention: snake_case
+
+  complexity:
+    max_cyclomatic_complexity: 10
+    max_nesting_depth: 4
+
+  security:
+    scan_secrets: true
+    scan_sql_injection: true
+    scan_xss: true
+
+output:
+  format: console
+"""
+    config_path.write_text(default_config, encoding="utf-8")
+    console.print(
+        f"[bold green]✅ Successfully created [/bold green][cyan]{config_path.absolute()}[/cyan]"
+    )
 
 
 @app.command()
@@ -91,6 +160,12 @@ def review(
     target = Path(path)
     config = load_config(target)
 
+    # Override config with CLI arguments
+    if severity != Severity.low:
+        config.severity_threshold = severity.value
+    if only:
+        config.enabled_modules = [only]
+
     # Show config source
     if config.config_path:
         console.print(f"[dim]Config:[/dim] [bold]{config.config_path}[/bold]")
@@ -106,7 +181,43 @@ def review(
         raise typer.Exit(1)
 
     with console.status("[cyan]Scanning files...[/cyan]"):
-        files = walk_files(target)
+        if staged:
+            staged_paths = get_staged_files(target)
+            files = []
+
+            # Combine default ignores with any user-defined ones from config
+            ignore_dirs = DEFAULT_IGNORE.copy()
+            if config.ignore:
+                ignore_dirs.update(config.ignore)
+
+            for sp in staged_paths:
+                if should_ignore(sp, ignore_dirs):
+                    continue
+
+                lang = detect_language(sp)
+                if not lang:
+                    continue
+
+                # Skip files that are too large (likely auto-generated)
+                size = sp.stat().st_size
+                if size > 500 * 1024:
+                    continue
+
+                try:
+                    relative = str(sp.relative_to(target))
+                except ValueError:
+                    relative = str(sp)
+
+                files.append(
+                    SourceFile(
+                        path=sp,
+                        language=lang,
+                        relative_path=relative,
+                        size_bytes=size,
+                    )
+                )
+        else:
+            files = walk_files(target, set(config.ignore) if config.ignore else None)
 
     if not files:
         console.print("[yellow]No supported source files found.[/yellow]")
@@ -134,16 +245,19 @@ def review(
     engine.register(StyleAnalyzer(config))
     engine.register(ComplexityAnalyzer(config))
     engine.register(DeadCodeAnalyzer(config))
+    engine.register(BigOAnalyzer(config))
+    engine.register(BugAnalyzer(config))
+    engine.register(SecurityAnalyzer(config))
 
-    console.print("[yellow]⚙️  Running analysis...[/yellow]")
+    console.print("[yellow]Running analysis...[/yellow]")
     issues = engine.run(files)
 
-    if not issues:
-        console.print("\n[bold green]✅ No issues found![/bold green]")
-    else:
-        console.print(f"\n[bold red]Found {len(issues)} issue(s)[/bold red]")
-        for issue in issues:
-            console.print(str(issue))
+    if format == OutputFormat.console:
+        ConsoleReporter.report(issues, console)
+    elif format == OutputFormat.json:
+        JsonReporter.report(issues)
+    elif format == OutputFormat.html:
+        HtmlReporter.report(issues, console)
 
 
 if __name__ == "__main__":

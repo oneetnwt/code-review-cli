@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Code Review CLI - Report</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fdfdfd; margin: 0; padding: 2rem; color: #333; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem; }
+        .summary { background: #f8f9fa; padding: 1rem; border-left: 4px solid #3498db; margin-bottom: 2rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th { background: #f1f1f1; text-align: left; padding: 0.75rem; border-bottom: 2px solid #ccc; }
+        td { padding: 0.75rem; border-bottom: 1px solid #eee; vertical-align: top; }
+        .severity-high { color: #e74c3c; font-weight: bold; }
+        .severity-medium { color: #f39c12; font-weight: bold; }
+        .severity-low { color: #27ae60; font-weight: bold; }
+        .suggestion { font-size: 0.85em; color: #7f8c8d; margin-top: 0.25rem; }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <h1>Code Review Report</h1>
+        <div class='summary'>
+           <p><strong>Total Issues:</strong> 43 </p>
+            <p>
+              <span class='severity-high'>HIGH: 3</span> | 
+              <span class='severity-medium'>MEDIUM: 6</span> | 
+              <span class='severity-low'>LOW: 34</span>
+            </p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>File</th>
+                    <th>Line</th>
+                    <th>Rule</th>
+                    <th>Severity</th>
+                    <th>Message & Suggestion</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                   <td><code>src\reporters\html_reporter.py</code></td>
+                   <td>14</td>
+                   <td>C001</td>
+                   <td class='severity-high'>HIGH</td>
+                   <td><strong>Function 'report' is too long (102 lines, max 50)</strong><div class='suggestion'>Break 'report' into smaller functions</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\cli.py</code></td>
+                   <td>69</td>
+                   <td>C001</td>
+                   <td class='severity-high'>HIGH</td>
+                   <td><strong>Function 'review' is too long (136 lines, max 50)</strong><div class='suggestion'>Break 'review' into smaller functions</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\cli.py</code></td>
+                   <td>69</td>
+                   <td>C002</td>
+                   <td class='severity-high'>HIGH</td>
+                   <td><strong>Function 'review' has high cyclomatic complexity (22, max 10)</strong><div class='suggestion'>Simplify by extracting logic into smaller functions</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\reporters\console.py</code></td>
+                   <td>26</td>
+                   <td>C001</td>
+                   <td class='severity-medium'>MEDIUM</td>
+                   <td><strong>Function 'report' is too long (87 lines, max 50)</strong><div class='suggestion'>Break 'report' into smaller functions</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\cli.py</code></td>
+                   <td>69</td>
+                   <td>C003</td>
+                   <td class='severity-medium'>MEDIUM</td>
+                   <td><strong>Function 'review' has deep nesting (depth 5, max 4)</strong><div class='suggestion'>Reduce nesting with early returns or extract nested blocks</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\security.py</code></td>
+                   <td>43</td>
+                   <td>C003</td>
+                   <td class='severity-medium'>MEDIUM</td>
+                   <td><strong>Function '_check_hardcoded_secrets' has deep nesting (depth 5, max 4)</strong><div class='suggestion'>Reduce nesting with early returns or extract nested blocks</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\engine.py</code></td>
+                   <td>38</td>
+                   <td>C003</td>
+                   <td class='severity-medium'>MEDIUM</td>
+                   <td><strong>Function 'run' has deep nesting (depth 5, max 4)</strong><div class='suggestion'>Reduce nesting with early returns or extract nested blocks</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\dead_code.py</code></td>
+                   <td>76</td>
+                   <td>C003</td>
+                   <td class='severity-medium'>MEDIUM</td>
+                   <td><strong>Function 'visit_Assign' has deep nesting (depth 5, max 4)</strong><div class='suggestion'>Reduce nesting with early returns or extract nested blocks</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\complexity.py</code></td>
+                   <td>117</td>
+                   <td>C001</td>
+                   <td class='severity-medium'>MEDIUM</td>
+                   <td><strong>Function '_check_function' is too long (99 lines, max 50)</strong><div class='suggestion'>Break '_check_function' into smaller functions</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\utils\file_walker.py</code></td>
+                   <td>78</td>
+                   <td>C001</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'walk_files' is too long (75 lines, max 50)</strong><div class='suggestion'>Break 'walk_files' into smaller functions</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\reporters\html_reporter.py</code></td>
+                   <td>30</td>
+                   <td>S001</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Line too long (124 chars, max 120)</strong><div class='suggestion'>Break this line into multiple lines or shorten it</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\reporters\html_reporter.py</code></td>
+                   <td>28</td>
+                   <td>S001</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Line too long (165 chars, max 120)</strong><div class='suggestion'>Break this line into multiple lines or shorten it</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\reporters\html_reporter.py</code></td>
+                   <td>27</td>
+                   <td>S001</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Line too long (153 chars, max 120)</strong><div class='suggestion'>Break this line into multiple lines or shorten it</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\security.py</code></td>
+                   <td>112</td>
+                   <td>S001</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Line too long (129 chars, max 120)</strong><div class='suggestion'>Break this line into multiple lines or shorten it</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\security.py</code></td>
+                   <td>95</td>
+                   <td>S001</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Line too long (134 chars, max 120)</strong><div class='suggestion'>Break this line into multiple lines or shorten it</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\security.py</code></td>
+                   <td>63</td>
+                   <td>S001</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Line too long (121 chars, max 120)</strong><div class='suggestion'>Break this line into multiple lines or shorten it</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\engine.py</code></td>
+                   <td>38</td>
+                   <td>C001</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'run' is too long (53 lines, max 50)</strong><div class='suggestion'>Break 'run' into smaller functions</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\dead_code.py</code></td>
+                   <td>166</td>
+                   <td>C001</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'analyze' is too long (69 lines, max 50)</strong><div class='suggestion'>Break 'analyze' into smaller functions</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\dead_code.py</code></td>
+                   <td>151</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_Decorator' should use snake_case</strong><div class='suggestion'>Rename to 'visit_decorator'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\dead_code.py</code></td>
+                   <td>145</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_Call' should use snake_case</strong><div class='suggestion'>Rename to 'visit_call'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\dead_code.py</code></td>
+                   <td>139</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_Attribute' should use snake_case</strong><div class='suggestion'>Rename to 'visit_attribute'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\dead_code.py</code></td>
+                   <td>134</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_Name' should use snake_case</strong><div class='suggestion'>Rename to 'visit_name'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\dead_code.py</code></td>
+                   <td>115</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_ClassDef' should use snake_case</strong><div class='suggestion'>Rename to 'visit_class_def'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\dead_code.py</code></td>
+                   <td>107</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_AsyncFunctionDef' should use snake_case</strong><div class='suggestion'>Rename to 'visit_async_function_def'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\dead_code.py</code></td>
+                   <td>97</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_FunctionDef' should use snake_case</strong><div class='suggestion'>Rename to 'visit_function_def'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\dead_code.py</code></td>
+                   <td>76</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_Assign' should use snake_case</strong><div class='suggestion'>Rename to 'visit_assign'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\dead_code.py</code></td>
+                   <td>62</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_ImportFrom' should use snake_case</strong><div class='suggestion'>Rename to 'visit_import_from'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\dead_code.py</code></td>
+                   <td>48</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_Import' should use snake_case</strong><div class='suggestion'>Rename to 'visit_import'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\complexity.py</code></td>
+                   <td>117</td>
+                   <td>C002</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function '_check_function' has high cyclomatic complexity (12, max 10)</strong><div class='suggestion'>Simplify by extracting logic into smaller functions</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\complexity.py</code></td>
+                   <td>87</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_Try' should use snake_case</strong><div class='suggestion'>Rename to 'visit_try'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\complexity.py</code></td>
+                   <td>83</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_Return' should use snake_case</strong><div class='suggestion'>Rename to 'visit_return'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\complexity.py</code></td>
+                   <td>77</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_BoolOp' should use snake_case</strong><div class='suggestion'>Rename to 'visit_bool_op'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\complexity.py</code></td>
+                   <td>73</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_Assert' should use snake_case</strong><div class='suggestion'>Rename to 'visit_assert'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\complexity.py</code></td>
+                   <td>69</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_With' should use snake_case</strong><div class='suggestion'>Rename to 'visit_with'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\complexity.py</code></td>
+                   <td>65</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_ExceptHandler' should use snake_case</strong><div class='suggestion'>Rename to 'visit_except_handler'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\complexity.py</code></td>
+                   <td>61</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_While' should use snake_case</strong><div class='suggestion'>Rename to 'visit_while'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\complexity.py</code></td>
+                   <td>57</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_For' should use snake_case</strong><div class='suggestion'>Rename to 'visit_for'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\complexity.py</code></td>
+                   <td>51</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_If' should use snake_case</strong><div class='suggestion'>Rename to 'visit_if'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\big_o.py</code></td>
+                   <td>100</td>
+                   <td>S001</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Line too long (127 chars, max 120)</strong><div class='suggestion'>Break this line into multiple lines or shorten it</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\big_o.py</code></td>
+                   <td>79</td>
+                   <td>S001</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Line too long (138 chars, max 120)</strong><div class='suggestion'>Break this line into multiple lines or shorten it</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\big_o.py</code></td>
+                   <td>34</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_Call' should use snake_case</strong><div class='suggestion'>Rename to 'visit_call'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\big_o.py</code></td>
+                   <td>28</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_While' should use snake_case</strong><div class='suggestion'>Rename to 'visit_while'</div></td>
+                </tr>
+                <tr>
+                   <td><code>src\analyzer\big_o.py</code></td>
+                   <td>22</td>
+                   <td>S004</td>
+                   <td class='severity-low'>LOW</td>
+                   <td><strong>Function 'visit_For' should use snake_case</strong><div class='suggestion'>Rename to 'visit_for'</div></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

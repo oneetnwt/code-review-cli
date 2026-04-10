@@ -59,7 +59,14 @@ class Config:
 
     # Module toggles
     enabled_modules: list[str] = field(
-        default_factory=lambda: ["style", "complexity", "security", "bug", "dead_code"]
+        default_factory=lambda: [
+            "style",
+            "complexity",
+            "security",
+            "bug",
+            "dead_code",
+            "bigo",
+        ]
     )
 
     # Rules
