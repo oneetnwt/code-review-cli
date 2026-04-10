@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "code-review-cli"
+version = "0.1.0"
+description = "A CLI tool to review your code before pushing"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "typer[all]>=0.9.0",
+    "rich>=13.0.0",
+    "pyyaml>=6.0",
+    "radon>=6.0",
+    "gitpython>=3.1",
+]
+
+[project.scripts]
+review = "src.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
