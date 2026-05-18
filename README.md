@@ -54,6 +54,8 @@ review review . --staged
 
 # Generate a beautiful HTML report
 review review . --format html
+```
+
 ## Development
 
 The architecture is divided into clear and extensible modules:
@@ -72,4 +74,3 @@ Tests are managed in the `tests/` directory. (Note: Currently undergoing scaffol
 ## License
 
 MIT License
-```
